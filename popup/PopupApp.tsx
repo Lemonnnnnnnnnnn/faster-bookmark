@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,15 +9,25 @@ import { useBookmarks } from './hooks/useBookmarks';
 
 export default function PopupApp() {
   // 状态管理
-  const [bookmarkName, setBookmarkName] = useState<string>('');
-  const [selectedFolderId, setSelectedFolderId] = useState<string>('');
+  const [bookmarkName, setBookmarkName] = useState<string>("");
+  const [selectedFolderId, setSelectedFolderId] = useState<string>("");
+  const [inputFolderPath, setInputFolderPath] = useState<string>("");
   const [isInIframe, setIsInIframe] = useState<boolean>(false);
-  const [inputFolderPath, setInputFolderPath] = useState<string>(''); 
+  
+  // 添加确认按钮ref
+  const confirmButtonRef = useRef<HTMLButtonElement>(null);
+
+  // 添加聚焦确认按钮的函数
+  const focusConfirmButton = () => {
+    if (confirmButtonRef.current) {
+      confirmButtonRef.current.focus();
+    }
+  };
   
   // 使用自定义hook获取书签功能
   const { 
-    allFolders, 
-    isLoading, 
+    allFolders,
+    isLoading,
     fetchAllBookmarkFolders, 
     createFolder, 
     getCurrentTabUrl, 
@@ -146,6 +156,7 @@ export default function PopupApp() {
                 setInputValue={setInputFolderPath}
                 placeholder="选择或搜索书签文件夹"
                 className="w-full"
+                onFolderSelect={focusConfirmButton}
               />
               {inputFolderPath && !selectedFolderId && (
                 <div className="text-xs text-blue-500">
@@ -158,7 +169,13 @@ export default function PopupApp() {
       </CardContent>
       <CardFooter className="flex justify-end gap-3 px-6 py-4 mt-auto border-t border-border">
         <Button variant="outline" onClick={handleCancel} className="min-w-20 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0.5">取消</Button>
-        <Button onClick={handleSaveBookmark} className="min-w-20 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0.5">确认</Button>
+        <Button 
+          ref={confirmButtonRef} 
+          onClick={handleSaveBookmark} 
+          className="min-w-20 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0.5"
+        >
+          确认
+        </Button>
       </CardFooter>
     </Card>
   );

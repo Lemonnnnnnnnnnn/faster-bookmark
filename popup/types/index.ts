@@ -14,4 +14,5 @@ export interface BookmarkFolderSelectProps {
   setInputValue: (value: string) => void;
   placeholder?: string;
   className?: string;
+  onFolderSelect?: () => void;
 } 

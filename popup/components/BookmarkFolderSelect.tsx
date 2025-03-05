@@ -9,6 +9,7 @@ export function BookmarkFolderSelect({
   setInputValue,
   placeholder = "选择或搜索书签文件夹",
   className = "",
+  onFolderSelect,
 }: BookmarkFolderSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [filteredFolders, setFilteredFolders] = useState<BookmarkFolder[]>([]);
@@ -117,6 +118,9 @@ export function BookmarkFolderSelect({
           setInputValue(selectedFolder.path);
           onChange(selectedFolder.id);
           setIsOpen(false);
+          if (onFolderSelect) {
+            onFolderSelect();
+          }
         } else if (inputValue) {
           // 如果没有匹配的结果，但有输入，保持状态以便创建新文件夹
           onChange('');
@@ -137,6 +141,9 @@ export function BookmarkFolderSelect({
     onChange(folder.id);
     setIsOpen(false);
     focusInput();
+    if (onFolderSelect) {
+      onFolderSelect();
+    }
   };
 
   // 点击外部关闭下拉框
