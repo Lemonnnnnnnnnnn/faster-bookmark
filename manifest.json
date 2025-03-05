@@ -1,0 +1,39 @@
+{
+  "chromium:manifest_version": 3,
+  "firefox:manifest_version": 2,
+  "version": "0.0.1",
+  "name": "faster-bookmark",
+  "author": "Your Name",
+  "description": "快速添加书签到指定文件夹",
+  "icons": {
+    "48": "images/trustpilot.png"
+  },
+  "chromium:action": {
+    "default_icon": {
+      "48": "images/trustpilot.png"
+    },
+    "default_title": "快速添加书签",
+    "default_popup": "popup/index.html"
+  },
+  "firefox:browser_action": {
+    "default_icon": {
+      "48": "images/trustpilot.png"
+    },
+    "default_title": "快速添加书签",
+    "default_popup": "popup/index.html"
+  },
+  "chromium:permissions": [
+    "tabs",
+    "bookmarks"
+  ],
+  "firefox:permissions": [
+    "tabs",
+    "bookmarks"
+  ],
+  "background": {
+    "chromium:service_worker": "background.ts",
+    "firefox:scripts": [
+      "background.ts"
+    ]
+  }
+}
