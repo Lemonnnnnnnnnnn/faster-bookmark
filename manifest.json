@@ -30,6 +30,15 @@
     "tabs",
     "bookmarks"
   ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      },
+      "description": "打开快速添加书签面板"
+    }
+  },
   "background": {
     "chromium:service_worker": "background.ts",
     "firefox:scripts": [
