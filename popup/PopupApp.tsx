@@ -174,7 +174,7 @@ export default function PopupApp() {
           onClick={handleSaveBookmark} 
           className="min-w-20 transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0.5"
         >
-          确认
+          确定
         </Button>
       </CardFooter>
     </Card>
