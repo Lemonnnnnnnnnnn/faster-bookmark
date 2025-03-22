@@ -118,13 +118,16 @@ export function BookmarkFolderSelect({
           setInputValue(selectedFolder.path);
           onChange(selectedFolder.id);
           setIsOpen(false);
-          if (onFolderSelect) {
-            onFolderSelect();
-          }
+          // if (onFolderSelect) {
+          //   onFolderSelect();
+          // }
         } else if (inputValue) {
           // 如果没有匹配的结果，但有输入，保持状态以便创建新文件夹
           onChange('');
           setIsOpen(false);
+        }
+        if (onFolderSelect) {
+          onFolderSelect();
         }
         e.preventDefault();
         break;
@@ -140,10 +143,10 @@ export function BookmarkFolderSelect({
     setInputValue(folder.path);
     onChange(folder.id);
     setIsOpen(false);
-    focusInput();
-    if (onFolderSelect) {
-      onFolderSelect();
-    }
+    // focusInput();
+    // if (onFolderSelect) {
+    //   onFolderSelect();
+    // }
   };
 
   // 点击外部关闭下拉框
