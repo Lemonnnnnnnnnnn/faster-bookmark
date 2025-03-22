@@ -194,6 +194,56 @@ export function BookmarkFolderSelect({
     }, 200);
   };
 
+  // 添加高亮文本组件
+  const HighlightText = ({ text, highlight }: { text: string; highlight: string }) => {
+    if (!highlight.trim()) {
+      return <span>{text}</span>;
+    }
+
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    
+    return (
+      <span>
+        {parts.map((part, index) => 
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <span key={index} className="bg-yellow-200 dark:bg-yellow-800">
+              {part}
+            </span>
+          ) : (
+            <span key={index}>{part}</span>
+          )
+        )}
+      </span>
+    );
+  };
+
+  // 高亮路径的每一部分
+  const HighlightPath = ({ path, searchText }: { path: string; searchText: string }) => {
+    const pathParts = path.split('/');
+    const searchParts = searchText.toLowerCase().split('/').filter(Boolean);
+    const lastSearchPart = searchParts[searchParts.length - 1] || '';
+
+    return (
+      <span>
+        {pathParts.map((part, index) => (
+          <span key={index}>
+            {index > 0 && <span className="text-muted-foreground">/</span>}
+            <HighlightText 
+              text={part} 
+              highlight={
+                // 对于最后一个搜索词，在所有部分中查找
+                // 对于其他搜索词，只在对应位置查找
+                index < searchParts.length - 1 
+                  ? searchParts[index] 
+                  : lastSearchPart
+              }
+            />
+          </span>
+        ))}
+      </span>
+    );
+  };
+
   return (
     <div className={`relative ${className}`}>
       <div 
@@ -260,7 +310,7 @@ export function BookmarkFolderSelect({
                     >
                       <path d="M2 3.5C2 2.67157 2.67157 2 3.5 2H6.5C7.12951 2 7.72229 2.37764 8.03243 2.93879L8.96757 4.56121C9.03771 4.70171 9.18526 4.79998 9.34722 4.8H12.5C13.3284 4.8 14 5.47157 14 6.3V12.5C14 13.3284 13.3284 14 12.5 14H3.5C2.67157 14 2 13.3284 2 12.5V3.5Z" fill="currentColor" />
                     </svg>
-                    <span>{folder.path}</span>
+                    <HighlightPath path={folder.path} searchText={inputValue} />
                   </div>
                 </li>
               ))}
